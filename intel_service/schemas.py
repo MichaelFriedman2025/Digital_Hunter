@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class IntelData(BaseModel):
-
+    
     timestamp: str
     signal_id: str
     entity_id: str
