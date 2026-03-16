@@ -16,7 +16,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
 
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
@@ -24,9 +24,9 @@ services:
     volumes:
       - kafka_kraft:/var/lib/kafka/data
 
-  db:
+  mysql:
     image: mysql:8.0
-    container_name: db
+    container_name: mysql
     environment:
       MYSQL_DATABASE: mydb
       MYSQL_ROOT_PASSWORD: password
@@ -36,6 +36,47 @@ services:
       - 3306:3306
     volumes:
       - db_data:/var/lib/mysql
+
+  init_db:
+    build: ./db
+    container_name: init_db
+    environment:
+      DB_URL: mysql+pymysql://user:password@mysql/mydb
+    depends_on:
+      - mysql
+    
+  intel_service:
+    build: ./intel_service
+    container_name: intel_service
+    environment:
+      DB_URL: mysql+pymysql://user:password@mysql/mydb
+      KAFKA_URI : kafka:9092
+    depends_on:
+      - mysql
+      - kafka
+      - init_db
+  
+  attack_service:
+    build: ./attack_service
+    container_name: attack_service
+    environment:
+      DB_URL: mysql+pymysql://user:password@mysql/mydb
+      KAFKA_URI : kafka:9092
+    depends_on:
+      - mysql
+      - kafka
+      - init_db
+
+  damage_service:
+    build: ./damage_service
+    container_name: damage_service
+    environment:
+      DB_URL: mysql+pymysql://user:password@mysql/mydb
+      KAFKA_URI : kafka:9092
+    depends_on:
+      - mysql
+      - kafka
+      - init_db
 
 volumes:
   kafka_kraft:

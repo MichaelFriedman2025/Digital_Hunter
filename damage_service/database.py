@@ -1,10 +1,10 @@
 from sqlalchemy import Column,Integer,String,Float,Boolean,create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
-
+import os
 
 
 def get_connection():
-    db_url = "mysql+pymysql://user:password@localhost/mydb"
+    db_url = os.getenv("DB_URL")
     engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()

@@ -1,0 +1,4 @@
+sqlalchemy
+confluent_kafka
+pydantic
+pymysql
