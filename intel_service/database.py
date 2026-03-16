@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Integer,String,Float,create_engine
+from sqlalchemy import Column,Integer,String,Float,Boolean,create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
 
 
@@ -6,12 +6,10 @@ from sqlalchemy.orm import declarative_base,sessionmaker
 def get_connection():
     db_url = "mysql+pymysql://user:password@localhost/mydb"
     engine = create_engine(db_url)
-    return engine
-
-def get_session(engine):
     Session = sessionmaker(bind=engine)
     session = Session()
     return session
+
 
 Base = declarative_base()
 class Intel(Base):
@@ -33,12 +31,4 @@ class Target(Base):
     reported_lat = Column(Float)
     reported_lon = Column(Float)
     calculating_travel_distance = Column(Float)
-
-def add_a_tables(engine):
-    Base.metadata.create_all(engine)
-    
-def init_db():
-    engine = get_connection()
-    session = get_session(engine)
-    add_a_tables(engine)
-    return session
+    is_attacted = Column(Boolean)

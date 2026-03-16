@@ -1,10 +1,13 @@
 from kafka_consumer import KafkaConsumer
 from kafka_producer import KafkaProducer
 from schemas import AttackData
+from database import get_connection
+from dal import check_if_entity_id_exist,update_data,insert_data_to_attack_table
 
 
 kafka_consumer = KafkaConsumer()
 kafka_producer = KafkaProducer()
+session = get_connection()
 
 try:
     while True:
@@ -17,8 +20,9 @@ try:
             except Exception as e:
                 kafka_producer.prduce_data(data)
                 continue
-            print(data)
-
+        if check_if_entity_id_exist(session,data["entity_id"]):
+            update_data(session,data["entity_id"])
+            insert_data_to_attack_table(session,data)
 
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")

@@ -1,13 +1,13 @@
 from kafka_consumer import KafkaConsumer
 from kafka_producer import KafkaProducer
 from schemas import IntelData
-from database import init_db
+from database import get_connection
 from dal import check_if_entity_id_exist,insert_data_to_intel_table,insert_data_to_target_table,update_data
 from haversine import haversine_km
 
 kafka_consumer = KafkaConsumer()
 kafka_producer = KafkaProducer()
-session = init_db()
+session = get_connection()
 try:
     while True:
         data = kafka_consumer.recive_data()

@@ -7,6 +7,7 @@ def insert_data_to_intel_table(session,data):
     session.commit()
 
 def insert_data_to_target_table(session,data):
+    data["is_attacted"] = False
     data = Target(**data)
     session.add(data)
     session.commit()
