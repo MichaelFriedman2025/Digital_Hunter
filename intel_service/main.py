@@ -37,9 +37,10 @@ try:
                 insert_data_to_intel_table(session,data)
                 insert_data_to_target_table(session,target_data)
                 
-
+            print(f"data: {data}")
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")
 
 finally:
     kafka_consumer.consumer.close()
+    session.close()
