@@ -31,7 +31,6 @@ try:
                 insert_data_to_attack_table(session,data)
                 log_event("info","attack service insert data successfully")
 
-
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")
 
