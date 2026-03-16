@@ -20,9 +20,11 @@ try:
             except Exception as e:
                 kafka_producer.prduce_data(data)
                 continue
-        if check_if_entity_id_exist(session,data["entity_id"]):
-            update_data(session,data["entity_id"])
-            insert_data_to_attack_table(session,data)
+        res_check = check_if_entity_id_exist(session,data["entity_id"])
+        if res_check:
+            if res_check.status_result != "destroyed":
+                update_data(session,data["entity_id"])
+                insert_data_to_attack_table(session,data)
 
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")

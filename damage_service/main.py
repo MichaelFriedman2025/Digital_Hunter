@@ -1,0 +1,29 @@
+from kafka_consumer import KafkaConsumer
+from database import get_connection
+from schemas import DamageData
+from dal import check_if_entity_id_exist,check_if_attack_id_exist,update_data,insert_data_to_damage_table
+
+kafka_consumer = KafkaConsumer()
+session = get_connection()
+
+try:
+    while True:
+        data = kafka_consumer.recive_data()
+        if data is None:
+            continue
+        else:
+            try:
+                DamageData(**data)
+            except Exception:
+                continue
+        res_check_entity = check_if_entity_id_exist(session,data["entity_id"])
+        res_check_attack = check_if_attack_id_exist(session,data["attack_id"])
+        if res_check_entity and res_check_attack:
+            update_data(session,data["entity_id"],data["result"]) 
+            
+
+except KeyboardInterrupt:
+    print("\n🔴 Stopping consumer")
+
+finally:
+    kafka_consumer.consumer.close()

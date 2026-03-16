@@ -6,25 +6,12 @@ from sqlalchemy.orm import declarative_base,sessionmaker
 def get_connection():
     db_url = "mysql+pymysql://user:password@localhost/mydb"
     engine = create_engine(db_url)
-    return engine
-
-def get_session(engine):
     Session = sessionmaker(bind=engine)
     session = Session()
     return session
 
-Base = declarative_base()
-class Intel(Base):
-    __tablename__ = "intel"
-    signal_id = Column(String(100),primary_key=True) 
-    entity_id = Column(String(100))
-    reported_lat = Column(Float)
-    reported_lon = Column(Float)
-    signal_type = Column(String(10))
-    priority_level = Column(Integer)
-    calculating_travel_distance = Column(Float)
-    timestamp = Column(String(100))
 
+Base = declarative_base()
 class Attack(Base):
     __tablename__ = "attack"
     attack_id = Column(String(100),primary_key=True) 
@@ -33,10 +20,11 @@ class Attack(Base):
     timestamp = Column(String(100))
 
 class Damage(Base):
-    __tablename__ = "damage"
-    attack_id = Column(String(100),primary_key=True) 
+    __tablename__ = "demage"
+    id = Column(Integer,primary_key=True,autoincrement=True)
+    attack_id = Column(String(100)) 
     entity_id = Column(String(100))
-    result = Column(String(100))
+    result = Column(String(10))
     timestamp = Column(String(100))
 
 class Target(Base):
@@ -48,15 +36,3 @@ class Target(Base):
     calculating_travel_distance = Column(Float)
     is_attacted = Column(Boolean)
     status_result = Column(String(10))
-
-
-def add_a_tables(engine):
-    Base.metadata.create_all(engine)
-    
-def init_db():
-    engine = get_connection()
-    session = get_session(engine)
-    add_a_tables(engine)
-    return session
-
-init_db()

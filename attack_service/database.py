@@ -28,3 +28,4 @@ class Target(Base):
     reported_lon = Column(Float)
     calculating_travel_distance = Column(Float)
     is_attacted = Column(Boolean)
+    status_result = Column(String(10))
