@@ -2,9 +2,8 @@ from sqlalchemy import Column,Integer,String,FLOAT,Date,create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
 
 
-
 def get_connection():
-    db_url = "sqlite:///mydb.db"
+    db_url = "mysql+pymysql://user:password@localhost/mydb"
     engine = create_engine(db_url)
     return engine
 
