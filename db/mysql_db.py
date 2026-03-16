@@ -36,7 +36,7 @@ class Damage(Base):
     __tablename__ = "damage"
     attack_id = Column(String(100),primary_key=True) 
     entity_id = Column(String(100))
-    result = Column(String(100))
+    status_result = Column(String(100))
     timestamp = Column(String(100))
 
 class Target(Base):

@@ -20,7 +20,6 @@ try:
         res_check_attack = check_if_attack_id_exist(session,data["attack_id"])
         if res_check_entity and res_check_attack:
             update_data(session,data["entity_id"],data["result"]) 
-            print(data)
             
 
 except KeyboardInterrupt:
@@ -28,3 +27,4 @@ except KeyboardInterrupt:
 
 finally:
     kafka_consumer.consumer.close()
+    session.close()
