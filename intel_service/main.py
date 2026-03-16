@@ -42,7 +42,6 @@ try:
                 insert_data_to_intel_table(session,data)
                 insert_data_to_target_table(session,target_data)
             log_event("info","intel service insert data successfully")
-
                 
 except KeyboardInterrupt:
     print("\n🔴 Stopping consumer")
