@@ -1,7 +1,7 @@
 from sqlalchemy import Column,Integer,String,Float,Boolean,create_engine
 from sqlalchemy.orm import declarative_base,sessionmaker
 import os
-
+from logger import log_event
 
 def get_connection():
     db_url = os.getenv("DB_URL")
@@ -59,4 +59,7 @@ def init_db():
     add_a_tables(engine)
     return session
 
+
+log_event("info","init_db service running...")
 init_db()
+log_event("info","init_db service finish")

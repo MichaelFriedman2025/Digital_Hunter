@@ -2,3 +2,4 @@ sqlalchemy
 confluent_kafka
 pydantic
 pymysql
+elasticsearch==8.12.0

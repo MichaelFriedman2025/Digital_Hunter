@@ -1,2 +1,3 @@
 sqlalchemy
 pymysql
+elasticsearch==8.12.0
